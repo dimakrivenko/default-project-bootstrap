@@ -1,8 +1,0 @@
-{
-	"settings": {
-		"title": "Default Project Boostrap"
-	},
-	"menus": {
-		"top_menu": ["item 1", "item 2", "item 3"]
-	}
-}
