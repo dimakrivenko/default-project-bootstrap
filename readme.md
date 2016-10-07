@@ -6,11 +6,11 @@
 Включает в себя следущее:
 
 - Стили: SCSS + PostCSS
-- CSS фреймворк: ZURB Foundation 6
+- Шаблонизатор: Pug
+- CSS фреймворк: Bootstrap 3
 - Методология CSS: SMACSS
 - Таск-менеджер: Gulp
 - Менеджер пакетов: Bower, NPM
-- Шаблонизатор Handlebars c Panini
 
 ### Установка
 
