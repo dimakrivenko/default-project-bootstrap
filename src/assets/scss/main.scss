@@ -1,7 +1,7 @@
 @charset 'utf-8';
 
+@import 'bootstrap.scss';
 @import 'settings';
-@import 'bootstrap';
 
 //-----------------------------------
 //   Final files
@@ -13,17 +13,17 @@
 @import "modules/index";
 
 
-.main {
-	max-height: 100%;
-	font-size: 20px;
-	transform: rotate(5deg);
-	background: svg-load('../svg-icons/plus-ico.svg', fill=#555) no-repeat;
-}
+// .main {
+// 	max-height: 100%;
+// 	font-size: 20px;
+// 	transform: rotate(5deg);
+// 	background: svg-load('../svg-icons/plus-ico.svg', fill=#555) no-repeat;
+// }
 
 /****************************************************
- _  __    _              _             ___          
+ _  __    _              _             ___
 | |/ /_ _(_)_ _____ _ _ | |_____      |   \ _____ __
 | ' <| '_| \ V / -_) ' \| / / _ \  _  | |) / -_) V /
-|_|\_\_| |_|\_/\___|_||_|_\_\___/ (_) |___/\___|\_/ 
-                                                                                                                                                                                                                      
+|_|\_\_| |_|\_/\___|_||_|_\_\___/ (_) |___/\___|\_/
+
 ****************************************************/

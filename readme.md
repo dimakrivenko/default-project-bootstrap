@@ -7,10 +7,10 @@
 
 - Стили: SCSS + PostCSS
 - Шаблонизатор: Pug
-- CSS фреймворк: Bootstrap 3
+- CSS фреймворк: Bootstrap 4
 - Методология CSS: SMACSS
 - Таск-менеджер: Gulp
-- Менеджер пакетов: Bower, NPM
+- Менеджер пакетов: NPM
 
 ### Установка
 
@@ -25,13 +25,11 @@ https://github.com/dimakrivenko/default-project.git default-project
 ```bash
 cd default-project
 npm install
-bower install
 ```
 
 Запусти следующими командам:
-```bash 
+```bash
 gulp
 gulp build
 gulp build --production
-``` 
-
+```

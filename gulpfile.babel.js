@@ -22,7 +22,7 @@ import spritesmith from 'gulp.spritesmith' // генератор спрайто�
 // Загружаем Gulp плагины в одной переменной
 const $ = plugins();
 
-// Флаг для компиляции в продакшн --production 
+// Флаг для компиляции в продакшн --production
 const PRODUCTION = !!(yargs.argv.production);
 
 // Загружаем настройки из settings.yml
@@ -33,7 +33,7 @@ function loadConfig() {
     return yaml.load(ymlFile);
 }
 
-// Компиляция в папку "dist" без отслеживания изменений 
+// Компиляция в папку "dist" без отслеживания изменений
 gulp.task('build',
     gulp.series(clean, gulp.parallel(pugTemplate, sass, javascript, images, copy), sprite, styleGuide));
 
@@ -41,7 +41,7 @@ gulp.task('build',
 gulp.task('default',
     gulp.series('build', server, watch));
 
-// Удаляем папку "dist", это присходит каждый раз при компиляции 
+// Удаляем папку "dist", это присходит каждый раз при компиляции
 function clean(done) {
     rimraf(PATHS.dist, done);
 }
@@ -122,7 +122,7 @@ function images() {
 }
 
 // Генератор спрайтов
-function sprite() {    
+function sprite() {
     var spriteData = gulp.src('src/assets/img/sprite-ico/*.png').pipe(spritesmith({
         imgName: '../img/sprite.png',
         cssName: 'sprite-icons.css'
@@ -139,7 +139,7 @@ function server(done) {
     done();
 }
 
-// Отслеживание изменений в файлах 
+// Отслеживание изменений в файлах
 function watch() {
     gulp.watch(PATHS.assets, copy);
     gulp.watch('src/{pages,layouts,partials}/**/*.pug').on('change', gulp.series(pugTemplate, browser.reload));

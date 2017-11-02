@@ -12,28 +12,29 @@ UNCSS_OPTIONS:
   html:
     - "dist/**/*.html"
   ignore:
-    - !!js/regexp .foundation-mq
     - !!js/regexp ^\.is-.*
     - !!js/regexp ^\.slick-.*
     - !!js/regexp .slick-dots
+    - !!js/regexp .is-active
 
 # Gulp will reference these paths when it copies files
 PATHS:
   # Path to dist folder
-  dist: "dist"  
+  dist: "dist"
   # Paths to static assets that aren't images, CSS, or JavaScript
   assets:
     - "src/assets/**/*"
     - "!src/assets/{img,js,scss}/**/*"
   # Paths to Sass libraries, which can then be loaded with @import
   sass:
-    - "bower_components/bootstrap-sass/assets/stylesheets"
+    # - "node_modules/bootstrap-sass/assets/stylesheets"
+    - "node_modules/bootstrap/scss"
   # Paths to JavaScript libraries, which are compined into one file
   javascript:
     # Библиотеки
-    - "bower_components/jquery/dist/jquery.js"
-    #- "bower_components/what-input/what-input.js"
-    - "bower_components/bootstrap-sass/assets/javascripts/bootstrap.min.js"
+    - "node_modules/jquery/dist/jquery.min.js"
+    - "node_modules/popper.js/dist/popper.min.js"
+    - "node_modules/bootstrap/dist/js/bootstrap.min.js"
 
     # Твой код
     - "src/assets/js/!(main).js"
