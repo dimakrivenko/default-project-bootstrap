@@ -36,7 +36,8 @@ function loadConfig() {
 
 // Компиляция в папку "dist" без отслеживания изменений
 gulp.task('build',
-    gulp.series(clean, gulp.parallel(pugTemplate, sass, javascript, images, copy), sprite, styleGuide));
+    gulp.series(clean, pugTemplate, javascript, sass, images, copy, sprite, styleGuide));
+    // gulp.series(clean, gulp.parallel(pugTemplate, sass, javascript, images, copy), sprite, styleGuide));
 
 // Компиляция в папку "dist" с отслеживанием изменений в файлах
 gulp.task('default',
@@ -83,8 +84,11 @@ function sass() {
         assets({
             loadPaths: ['src/assets/img/'],
             relativeTo: 'src/assets/scss/'
-        }),
-        uncss({
+        })
+    ]
+
+    if (PRODUCTION) {
+        processors.push(uncss({
             html: ['dist/**/*.html'],
             ignore: [
                 /^\.is-.*/ig,
@@ -95,8 +99,9 @@ function sass() {
                 /\.modal/ig, 
                 /\.has-error/ig,
             ]
-        })
-    ]
+        }))
+    }
+
     return gulp.src('src/assets/scss/main.scss')
         .pipe($.sourcemaps.init())
         .pipe($.sass({
@@ -156,8 +161,8 @@ function server(done) {
 function watch() {
     gulp.watch(PATHS.assets, copy);
     gulp.watch('src/{pages,layouts,partials}/**/*.pug').on('change', gulp.series(pugTemplate, browser.reload));
-    gulp.watch('src/assets/scss/**/*.scss', sass);
     gulp.watch('src/assets/js/**/*.js').on('change', gulp.series(javascript, browser.reload));
+    gulp.watch('src/assets/scss/**/*.scss', sass);
     gulp.watch('src/assets/img/**/*').on('change', gulp.series(images, browser.reload));
     gulp.watch('src/styleguide/**').on('change', gulp.series(styleGuide, browser.reload));
 }
