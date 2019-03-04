@@ -16,6 +16,7 @@ import opacity from 'postcss-opacity'; // сгруппированные media q
 import assets from 'postcss-assets'; // пути до файлов
 import pug from 'gulp-pug'; // Шаблонизатор Pug
 import spritesmith from 'gulp.spritesmith' // генератор спрайтов
+import uncss from 'postcss-uncss' // UnCSS
 
 
 
@@ -82,6 +83,18 @@ function sass() {
         assets({
             loadPaths: ['src/assets/img/'],
             relativeTo: 'src/assets/scss/'
+        }),
+        uncss({
+            html: ['dist/**/*.html'],
+            ignore: [
+                /^\.is-.*/ig,
+                /^\.slick-.*/ig,
+                /\.slick-dots/ig,
+                /\.is-active/ig,
+                /\.fade\.in/ig,
+                /\.modal/ig, 
+                /\.has-error/ig,
+            ]
         })
     ]
     return gulp.src('src/assets/scss/main.scss')
@@ -92,7 +105,7 @@ function sass() {
             .on('error', $.sass.logError))
         .pipe($.postcss(processors))
         .pipe($.autoprefixer({ browsers: COMPATIBILITY }))
-        .pipe($.if(PRODUCTION, $.uncss(UNCSS_OPTIONS)))
+        // .pipe($.if(PRODUCTION, $.uncss(UNCSS_OPTIONS)))
         .pipe($.if(PRODUCTION, $.cssnano()))
         .pipe($.if(!PRODUCTION, $.sourcemaps.write()))
         .pipe(gulp.dest(PATHS.dist + '/assets/css'))
