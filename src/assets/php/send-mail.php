@@ -1,29 +1,24 @@
 <?php
-	include "class.phpmailer.php";
+	include "libs/class.phpmailer.php";
 
-	if(!empty($_POST['name'])) { $message_text .= "<p><b>Имя : </b>".$_POST['name']."</p>"; }
-	if(!empty($_POST['phone'])) { $message_text .= "<p><b>Телефон : </b>".$_POST['phone']."</p>"; }
+	function sendMail ($post) {
+		$send_email = "zip557@yandex.ru";
 
-	$subject = "Новая заявка с сайта - Default project"; // Тема письма
-	$send_email = "wen2333@gmail.com";
-	$message_body = "
-		<h2>".$subject."</h2>".$message_text;
+		$subject = 'Новая заявка с сайта: Default Project';
+		$message_text = '<h3>' . $subject . '</h3>';
 
-	$mail = new PHPMailer();
-	$mail->CharSet = 'UTF-8';
-	$mail->From = $_POST['name'];
-	$mail->FromName = $_POST['name'];
-	$mail->AddAddress($send_email);
-	$mail->IsHTML(true);
-	$mail->Subject = $subject;
+		if(!empty($post['name'])) { $message_text .= "<p><b>Имя : </b>".htmlspecialchars($post['name'])."</p>"; }
+		if(!empty($post['phone'])) { $message_text .= "<p><b>Телефон : </b>".htmlspecialchars($post['phone'])."</p>"; }
+		if(!empty($post['email'])) { $message_text .= "<p><b>E-mail : </b>".htmlspecialchars($post['email'])."</p>"; }
 
-	// Вложенные файлы
-	// foreach ($_FILES as $key => $value) {
-	// 	if ($value['error'] === 0) {
-	// 	   $mail->AddAttachment($value['tmp_name'], $value['name']);
-	// 	}
-	// }
+		$mail = new PHPMailer();
+		$mail->CharSet = 'UTF-8';
+		$mail->From = 'Default Project';
+		$mail->FromName = 'Default Project';
+		$mail->AddAddress($send_email);
+		$mail->IsHTML(true);
+		$mail->Subject = $subject;
 
-	$mail->Body = $message_body;
-	$mail->Send();
-?>
+		$mail->Body = $message_text;
+		$mail->Send();
+	}

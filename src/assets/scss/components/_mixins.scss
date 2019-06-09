@@ -4,10 +4,10 @@
 
 // Media query
 $breakpoints: (
-    "phone": 576px,
-    "tablet": 768px,
-    "tablet-wide": 992px,
-    "desktop": 1200px
+    "sm": 576px,
+    "md": 768px,
+    "lg": 992px,
+    "xl": 1200px
 );
 @mixin mq($width, $type: max) {
     @if map_has_key($breakpoints, $width) {

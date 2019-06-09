@@ -5,7 +5,6 @@ import yargs from 'yargs';
 import browser from 'browser-sync';
 import gulp from 'gulp';
 import rimraf from 'rimraf';
-import sherpa from 'style-sherpa';
 import yaml from 'js-yaml';
 import fs from 'fs';
 import pxtorem from 'postcss-pxtorem'; // px в rem
@@ -19,7 +18,6 @@ import spritesmith from 'gulp.spritesmith' // генератор спрайто�
 import uncss from 'postcss-uncss' // UnCSS
 
 
-
 // Загружаем Gulp плагины в одной переменной
 const $ = plugins();
 
@@ -27,7 +25,7 @@ const $ = plugins();
 const PRODUCTION = !!(yargs.argv.production);
 
 // Загружаем настройки из settings.yml
-const { COMPATIBILITY, PORT, UNCSS_OPTIONS, PATHS } = loadConfig();
+const { PORT, PATHS } = loadConfig();
 
 function loadConfig() {
     let ymlFile = fs.readFileSync('config.yml', 'utf8');
@@ -36,7 +34,7 @@ function loadConfig() {
 
 // Компиляция в папку "dist" без отслеживания изменений
 gulp.task('build',
-    gulp.series(clean, pugTemplate, javascript, sass, images, copy, sprite, styleGuide));
+    gulp.series(clean, pugTemplate, javascript, sass, images, copy, sprite));
     // gulp.series(clean, gulp.parallel(pugTemplate, sass, javascript, images, copy), sprite, styleGuide));
 
 // Компиляция в папку "dist" с отслеживанием изменений в файлах
@@ -56,30 +54,22 @@ function copy() {
 
 // Компиляция HTML шаблонов из Pug
 function pugTemplate() {
-    var pugData = require('./src/data/_main.json');
     return gulp.src('src/pages/**/*.pug')
         .pipe($.pug({
-            pretty: true,
-            locals: pugData
+            pretty: true
         }))
         .pipe(gulp.dest(PATHS.dist));
 }
 
-
-// Генерация Styleguide
-function styleGuide(done) {
-    sherpa('src/styleguide/index.md', {
-        output: PATHS.dist + '/styleguide.html',
-        template: 'src/styleguide/template.html'
-    }, done);
-}
 
 // Компиляция SCSS
 function sass() {
     var processors = [
         pxtorem(),
         inlineSvg(),
-        mqpacker(),
+        mqpacker({
+            sort: require('sort-css-media-queries').desktopFirst
+        }),
         opacity(),
         assets({
             loadPaths: ['src/assets/img/'],
@@ -95,6 +85,8 @@ function sass() {
                 /^\.slick-.*/ig,
                 /\.slick-dots/ig,
                 /\.is-active/ig,
+                /\.is-loading/ig,
+                /\.is-loading span/ig,
                 /\.fade\.in/ig,
                 /\.modal/ig, 
                 /\.has-error/ig,
@@ -109,8 +101,7 @@ function sass() {
             })
             .on('error', $.sass.logError))
         .pipe($.postcss(processors))
-        .pipe($.autoprefixer({ browsers: COMPATIBILITY }))
-        // .pipe($.if(PRODUCTION, $.uncss(UNCSS_OPTIONS)))
+        .pipe($.autoprefixer())
         .pipe($.if(PRODUCTION, $.cssnano()))
         .pipe($.if(!PRODUCTION, $.sourcemaps.write()))
         .pipe(gulp.dest(PATHS.dist + '/assets/css'))
@@ -164,5 +155,4 @@ function watch() {
     gulp.watch('src/assets/js/**/*.js').on('change', gulp.series(javascript, browser.reload));
     gulp.watch('src/assets/scss/**/*.scss', sass);
     gulp.watch('src/assets/img/**/*').on('change', gulp.series(images, browser.reload));
-    gulp.watch('src/styleguide/**').on('change', gulp.series(styleGuide, browser.reload));
 }

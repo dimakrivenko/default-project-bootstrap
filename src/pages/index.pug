@@ -8,9 +8,31 @@ block body
 	section.l-content
 		.container
 			.row
-				.col-md-12
+				.col-md-6
 					p.
 						Home page content111
+
+				.col-md-6
+					form.common-form(data-toggle="validator", role="form", data-focus="false", novalidate="true")
+						.form-group-set
+							.form-group
+								input.form-control(type="text", name="name", placeholder="Ваше имя")
+							.form-group
+								input.form-control(type="email", name="email", placeholder="Ваш email", required)
+							.form-group
+								input.form-control(type="text", name="phone", placeholder="Телефон +7...", required)
+						button.btn.btn-primary.submit
+							span Отправить
+						.privacy
+							label.checkbox
+								input(type="checkbox" name="privacy" checked="")
+								i
+							p Я даю согласие на обработку персональных данных и соглашаюсь c <a href="./privacy.html" target="_blank">политикой конфиденциальности</a>
+						.info
+
+						input(type="hidden" name="form_name" value="Оставить заявку")
+						input(type="hidden" name="modal_success" value="")
+						input(type="hidden" name="ya_metrica_goal_name" value="")
 			
 
 
